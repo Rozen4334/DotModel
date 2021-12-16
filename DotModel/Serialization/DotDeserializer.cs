@@ -1,10 +1,11 @@
 ﻿using DotModel.Core;
+using System.Text;
 
 namespace DotModel.Serialization;
 
 public class DotDeserializer
 {
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -30,7 +31,7 @@ public class DotDeserializer
     /// <exception cref="FileNotFoundException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static async Task<Type> DeserializeAsync<T>(string path, DeserializerSettings? settings = null)
+    public static async Task<T> DeserializeAsync<T>(string path, DeserializerSettings? settings = null)
         where T : IDotModel
     {
         switch(settings)
@@ -41,58 +42,36 @@ public class DotDeserializer
         }
 
         var returnType = typeof(T);
-
         var properties = returnType.GetProperties();
+        var fields = returnType.GetFields();
 
-        // Does the type passed contain any properties?
-        //
-        // TODO: field checks
-        if (!properties.Any())
-            throw new ArgumentNullException(nameof(properties), "No publically accessible properties found on mentioned type.");
+        if (!properties.Any() && !fields.Any())
+            throw new ArgumentNullException(nameof(properties) + "||" + nameof(fields), 
+                "No publically accessible properties nor fields found in provided type.");
 
-        // Does this file exist?
         if (!File.Exists(path))
             throw new FileNotFoundException("File not found, please check directory:", path);
 
-        // Retrieve the lines from specified path
         var lines = (await File.ReadAllLinesAsync(path)).ToList();
 
-        // Remove all lines that dont matter to us:
-        //
-        // Comments (starting with *)
-        // Whitespace
         lines.RemoveAll(x => string.IsNullOrWhiteSpace(x) || x.StartsWith('*'));
 
-        // Are there any lines left?
         if (!lines.Any())
-            throw new ArgumentException("Nothing found in provided file directory.", nameof(path));
+            throw new ArgumentNullException(nameof(path), 
+                "Nothing found in provided file directory.");
 
-        // Iterate through all lines.
-        foreach (var line in lines)
+        Dictionary<string, Type> values = SerializerExtensions.FindValuesOfType(lines);
+
+        foreach(var value in values)
         {
-            // retrieve entry set
-            var array = line.Split(':');
+            var propertySet = properties.Where(x => x.Name == value.Key && x.CanWrite).ToArray();
+            var fieldSet = fields.Where(x => x.Name == value.Key && x.IsPublic).ToArray();
+            if (propertySet.Length > 1 || fieldSet.Length > 1 || propertySet.Any(x => x.Name == fieldSet.First().Name))
+                throw new ArgumentOutOfRangeException(nameof(propertySet) + " || " + nameof(fieldSet),
+                    "Multiple properties or values found to assign values to, consider renaming case-sensitive properties and fields to avoid this ambiguity.");
 
-            if (array.Length > 2)
-                array[1] = string.Join(':', array[1..]);
-
-            if (array.Length < 2)
-            {
-                // This is either a dict, list or class. Here we can account for all extra listeners.
-            }
-            var propertySet = properties.Where(x => x.Name == array[0] && x.CanWrite).ToArray();
-
-            // Technically impossible but are there multiple public properties with the same name?
-            if (propertySet.Length > 1)
-                throw new ArgumentOutOfRangeException(nameof(propertySet),
-                    "Multiple properties found to assign values to, consider renaming case-sensitive fields to avoid this ambiguity.");
-
-            if (!SerializerExtensions.FindParser(propertySet[0].PropertyType, out var result))
-            {
-                result(array[1], out var value);
-                returnType.GetProperty(propertySet[0].Name)?.SetValue(null, value);
-            }
+            returnType.GetProperty(propertySet[0].Name)?.SetValue(null, value.Value);
         }
-        return returnType;
+        return (T)(object)returnType;
     }
 }
