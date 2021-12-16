@@ -48,4 +48,7 @@ internal static class Parser
     public static Delegate Get(Type type) 
         => _dict.Value[type] 
         ?? throw new ArgumentOutOfRangeException(nameof(type), "Type not found, possible NRE if not caught.");
+
+    public static bool Exists(Type type)
+        => _dict.Value.ContainsKey(type);
 }
