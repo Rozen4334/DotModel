@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace DotConfig;
+namespace DotModel;
 
 internal delegate bool TryParseCallback<T>(string s, out T value);
 

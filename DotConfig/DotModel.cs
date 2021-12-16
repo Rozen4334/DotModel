@@ -1,23 +1,24 @@
-﻿namespace DotConfig;
+﻿namespace DotModel;
 
 /// <summary>
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class DotConfig : IDotModel
+public abstract class DotModel : IDotModel
 {
     private readonly string _path;
 
     private IDotModel Model;
 
     /// <summary>
-    ///     Creates a new disposable instance of your config model, passing a valid filepath into it.
+    ///     Creates a new disposable instance of your model, passing a valid filepath into it.
     /// </summary>
     /// <param name="path">The path that this instance should be saving to.</param>
-    public DotConfig(params string[] path)
+    public DotModel(params string[] path)
     {
-        if (path[path.Length].Contains(".config"))
-            path[path.Length] += ".config";
+        // TODO: file extension.
+        if (path[path.Length].Contains(".txt"))
+            path[path.Length] += ".txt";
         _path = Path.Combine(path[..(path.Length - 1)]);
 
         if (!File.Exists(_path))
@@ -32,8 +33,8 @@ public abstract class DotConfig : IDotModel
     protected IDotModel Load(IDotModel instance, SerializerSettings? sSettings = null, DeserializerSettings? dSettings = null)
     {
         Model = instance;
-        var result = DotSerializer<IDotModel>.Deserialize(instance, _path);
-        return result.Equals(instance) ? DotSerializer<IDotModel>.Serialize(instance, _path) : result;
+        var result = DotSerializer.Deserialize(instance, _path);
+        return result.Equals(instance) ? DotSerializer.Serialize(instance, _path) : result;
     }
 
     /// <summary>
@@ -72,7 +73,7 @@ public abstract class DotConfig : IDotModel
 
     async void IDisposable.Dispose()
     {
-        await DotSerializer<IDotModel>.SerializeAsync(Model, _path);
+        await DotSerializer.SerializeAsync(Model, _path);
         GC.SuppressFinalize(this);
     }
 }

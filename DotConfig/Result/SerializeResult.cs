@@ -1,4 +1,4 @@
-﻿namespace DotConfig;
+﻿namespace DotModel;
 
 public struct SerializeResult
     : IResult

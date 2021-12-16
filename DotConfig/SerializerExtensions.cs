@@ -1,4 +1,4 @@
-﻿namespace DotConfig;
+﻿namespace DotModel;
 
 internal static class SerializerExtensions
 {

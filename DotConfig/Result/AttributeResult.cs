@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DotConfig;
+namespace DotModel;
 
 public struct AttributeResult : IResult
 {

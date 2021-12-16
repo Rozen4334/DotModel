@@ -1,4 +1,4 @@
-﻿namespace DotConfig;
+﻿namespace DotModel;
 
 public class ExampleClass
 {
@@ -6,7 +6,7 @@ public class ExampleClass
 }
 
 public class ExampleConfig 
-    : DotConfig
+    : DotModel
 {
     [DotProperty("Username", "My username")]
     public string Name { get; set; } = "Rozen";

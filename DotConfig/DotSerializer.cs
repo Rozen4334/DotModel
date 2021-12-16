@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace DotConfig;
+namespace DotModel;
 
-internal static class DotSerializer<T> where T : IDotModel
+internal static class DotSerializer
 {
     /// <summary>
     /// 
@@ -12,7 +12,8 @@ internal static class DotSerializer<T> where T : IDotModel
     /// <param name="settings"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static T Serialize(T model, string path, SerializerSettings? settings = null)
+    public static T Serialize<T>(T model, string path, SerializerSettings? settings = null) 
+        where T : IDotModel
     {
         throw new NotImplementedException();
     }
@@ -25,7 +26,8 @@ internal static class DotSerializer<T> where T : IDotModel
     /// <param name="settings"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static async Task<T> SerializeAsync(T model, string path, SerializerSettings? settings = null)
+    public static async Task<T> SerializeAsync<T>(T model, string path, SerializerSettings? settings = null) 
+        where T : IDotModel
     {
         await Task.CompletedTask;
         throw new NotImplementedException();
@@ -39,7 +41,8 @@ internal static class DotSerializer<T> where T : IDotModel
     /// <param name="settings"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static T Deserialize(T model, string path, DeserializerSettings? settings = null)
+    public static T Deserialize<T>(T model, string path, DeserializerSettings? settings = null) 
+        where T : IDotModel
     {
         throw new NotImplementedException();
     }
@@ -55,7 +58,8 @@ internal static class DotSerializer<T> where T : IDotModel
     /// <exception cref="FileNotFoundException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static async Task<T> DeserializeAsync(T model, string path, DeserializerSettings? settings = null)
+    public static async Task<T> DeserializeAsync<T>(T model, string path, DeserializerSettings? settings = null) 
+        where T : IDotModel
     {
         var properties = typeof(T).GetProperties();
 
