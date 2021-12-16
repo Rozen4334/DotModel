@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using DotModel.Core;
+using System.Reflection;
 
 namespace DotModel.Results;
 

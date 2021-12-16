@@ -1,12 +1,13 @@
-﻿namespace DotModel;
+﻿using DotModel.Attributes;
+
+namespace DotModel;
 
 public class ExampleClass
 {
-    public static ExampleConfig Config { get; set; } = new ExampleConfig().Load();
+    public static ExampleConfig Config { get; set; } = new ExampleConfig();
 }
 
 public class ExampleConfig 
-    : DynamicModel
 {
     [DotProperty("Username", "My username")]
     public string Name { get; set; } = "Rozen";
@@ -15,14 +16,7 @@ public class ExampleConfig
     public short Discriminator { get; set; } = 0001;
 
     public ExampleConfig()
-    : base("files", "config") 
     {
 
     }
-
-    public ExampleConfig Load()
-        => base.Load(this) as ExampleConfig;
-
-    public void Save()
-        => base.Save(this, SaveSettings.DirectlyToFile);
 }

@@ -1,4 +1,6 @@
-﻿namespace DotModel.Results;
+﻿using DotModel.Core;
+
+namespace DotModel.Results;
 
 public struct SerializeResult
     : IResult

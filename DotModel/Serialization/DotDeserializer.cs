@@ -1,4 +1,6 @@
-﻿namespace DotModel.Serialization;
+﻿using DotModel.Core;
+
+namespace DotModel.Serialization;
 
 public class DotDeserializer
 {
@@ -11,7 +13,7 @@ public class DotDeserializer
     /// <param name="settings"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static T Deserialize<T>(T model, string path, DeserializerSettings? settings = null)
+    public static T Deserialize<T>(string path, DeserializerSettings? settings = null)
         where T : IDotModel
     {
         throw new NotImplementedException();
@@ -28,10 +30,19 @@ public class DotDeserializer
     /// <exception cref="FileNotFoundException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static async Task<T> DeserializeAsync<T>(T model, string path, DeserializerSettings? settings = null)
+    public static async Task<Type> DeserializeAsync<T>(string path, DeserializerSettings? settings = null)
         where T : IDotModel
     {
-        var properties = typeof(T).GetProperties();
+        switch(settings)
+        {
+            case DeserializerSettings.None:
+            default:
+                break;
+        }
+
+        var returnType = typeof(T);
+
+        var properties = returnType.GetProperties();
 
         // Does the type passed contain any properties?
         //
@@ -60,8 +71,6 @@ public class DotDeserializer
         foreach (var line in lines)
         {
             // retrieve entry set
-            //
-            // TODO: account for lists & dictionaries.
             var array = line.Split(':');
 
             if (array.Length > 2)
@@ -81,9 +90,9 @@ public class DotDeserializer
             if (!SerializerExtensions.FindParser(propertySet[0].PropertyType, out var result))
             {
                 result(array[1], out var value);
-                model.GetType().GetProperty(propertySet[0].Name)?.SetValue(null, value);
+                returnType.GetProperty(propertySet[0].Name)?.SetValue(null, value);
             }
         }
-        return model;
+        return returnType;
     }
 }
