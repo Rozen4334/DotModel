@@ -2,22 +2,57 @@
 
 internal static class DotSerializer<T> where T : IDotModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="path"></param>
+    /// <param name="settings"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public static T Serialize(T model, string path, SerializerSettings? settings = null)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="path"></param>
+    /// <param name="settings"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public static async Task<T> SerializeAsync(T model, string path, SerializerSettings? settings = null)
     {
         await Task.CompletedTask;
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="path"></param>
+    /// <param name="settings"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public static T Deserialize(T model, string path, DeserializerSettings? settings = null)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="path"></param>
+    /// <param name="settings"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="FileNotFoundException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static async Task<T> DeserializeAsync(T model, string path, DeserializerSettings? settings = null)
     {
         var properties = typeof(T).GetProperties();

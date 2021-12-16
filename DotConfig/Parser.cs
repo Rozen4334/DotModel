@@ -29,8 +29,23 @@ internal static class Parser
         return callback;
     }
 
+    /// <summary>
+    ///     Gets the delegate associated with a type, if not found returns nothing.
+    /// </summary>
+    /// <typeparam name="T">The type to retrieve its value for.</typeparam>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if no delegate was found.</exception>
+    /// <returns></returns>
     public static TryParseCallback<T> Get<T>()
-        => (TryParseCallback<T>)_dict.Value[typeof(T)];
+        => (TryParseCallback<T>)_dict.Value[typeof(T)] 
+        ?? throw new ArgumentOutOfRangeException(nameof(T), "Type not found, possible NRE if not caught.");
 
-    public static Delegate Get(Type type) => _dict.Value[type];
+    /// <summary>
+    ///     Gets the delegate associated with a type, if not found returns nothing.
+    /// </summary>
+    /// <param name="type">A Generic type to retrieve the delegate for.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if no delegate was found.</exception>
+    /// <returns>A delegate associated with <paramref name="type"/></returns>
+    public static Delegate Get(Type type) 
+        => _dict.Value[type] 
+        ?? throw new ArgumentOutOfRangeException(nameof(type), "Type not found, possible NRE if not caught.");
 }
