@@ -11,19 +11,19 @@ with no idea what kind of value should reside there. DotConfig wants this change
 #### 👍 Config files should look like this:
 
 ```markdown
-Your username
+*Your username
 - string Name: Rozen
 
-Your discriminator
+*Your discriminator
 - short Discriminator: 1001
 
-Your favorite servers
+*Your favorite servers
 - list(ulong) Servers
   - 2101010101010101010
   - 6942000000000000000
   - 1844293183231321312
 
-Custom commands with unique responses
+*Custom commands with unique responses
 - dictionary(string, string) Commands
   - [Hello] Hi there
   - [Im cool!] Yea you are!
@@ -70,24 +70,24 @@ If it decrements down to 0, the value will be disposed and every new ` [ ` or ` 
 ### 📂 Lists inside dictionaries, or other classes?
 
 ```markdown
-A unique format to account for
+*A unique format to account for
 - dictionary(int, class) Students
   - [1] 
-    A student class, which can also be commented into.
+    *A student class, which can also be commented into.
     - model Student
 
-      A name:
+      *A name:
       - string Name: Frank
 
-      A student number:
+      *A student number:
       - int StudentNum: 101010101
   - [2]
     - model Student
 
-      Another name:
+      *Another name:
       - string Name: Paul
 
-      A different student number:
+      *A different student number:
       - int StudentNum: 2121212121
 ```
 
