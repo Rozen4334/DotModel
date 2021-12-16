@@ -1,10 +1,10 @@
-# 🗃 DotConfig
+# 🗃 DotModel
 An improved way to manage and use configuration files in your applications!
 
 ## ⚠ This project is still completely work in progress. Here is the general idea:
 
 With config files often come an excessive amount of uncommented entries, 
-with no idea what kind of value should reside there. DotConfig wants this changed!
+with no idea what kind of value should reside there. DotModel wants this changed!
 
 ## 🏁 Goals for this project:
 
