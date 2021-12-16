@@ -1,10 +1,10 @@
 ﻿using System.Collections.Immutable;
 
-namespace DotModel;
+namespace DotModel.Serialization;
 
 internal delegate bool TryParseCallback<T>(string s, out T value);
 
-internal static class Parser
+internal static class TypeParser
 {
     private static readonly Lazy<IReadOnlyDictionary<Type, Delegate>> _dict = new(GetParsers);
 

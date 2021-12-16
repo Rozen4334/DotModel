@@ -1,4 +1,4 @@
-﻿namespace DotModel;
+﻿namespace DotModel.Results;
 
 public struct SerializeResult
     : IResult

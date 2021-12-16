@@ -1,22 +1,7 @@
-﻿using System.Reflection;
+﻿namespace DotModel.Serialization;
 
-namespace DotModel;
-
-internal static class DotSerializer
+public class DotDeserializer
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="model"></param>
-    /// <param name="path"></param>
-    /// <param name="settings"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public static T Serialize<T>(T model, string path, SerializerSettings? settings = null) 
-        where T : IDotModel
-    {
-        throw new NotImplementedException();
-    }
 
     /// <summary>
     /// 
@@ -26,22 +11,7 @@ internal static class DotSerializer
     /// <param name="settings"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static async Task<T> SerializeAsync<T>(T model, string path, SerializerSettings? settings = null) 
-        where T : IDotModel
-    {
-        await Task.CompletedTask;
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="model"></param>
-    /// <param name="path"></param>
-    /// <param name="settings"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public static T Deserialize<T>(T model, string path, DeserializerSettings? settings = null) 
+    public static T Deserialize<T>(T model, string path, DeserializerSettings? settings = null)
         where T : IDotModel
     {
         throw new NotImplementedException();
@@ -58,7 +28,7 @@ internal static class DotSerializer
     /// <exception cref="FileNotFoundException"></exception>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static async Task<T> DeserializeAsync<T>(T model, string path, DeserializerSettings? settings = null) 
+    public static async Task<T> DeserializeAsync<T>(T model, string path, DeserializerSettings? settings = null)
         where T : IDotModel
     {
         var properties = typeof(T).GetProperties();
@@ -105,16 +75,15 @@ internal static class DotSerializer
 
             // Technically impossible but are there multiple public properties with the same name?
             if (propertySet.Length > 1)
-                throw new ArgumentOutOfRangeException(nameof(propertySet), 
+                throw new ArgumentOutOfRangeException(nameof(propertySet),
                     "Multiple properties found to assign values to, consider renaming case-sensitive fields to avoid this ambiguity.");
 
             if (!SerializerExtensions.FindParser(propertySet[0].PropertyType, out var result))
             {
                 result(array[1], out var value);
                 model.GetType().GetProperty(propertySet[0].Name)?.SetValue(null, value);
-            }    
+            }
         }
         return model;
     }
 }
-

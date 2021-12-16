@@ -1,4 +1,4 @@
-﻿namespace DotModel;
+﻿namespace DotModel.Core;
 
 public interface IResult
 {

@@ -6,7 +6,7 @@ public class ExampleClass
 }
 
 public class ExampleConfig 
-    : DotModel
+    : DynamicModel
 {
     [DotProperty("Username", "My username")]
     public string Name { get; set; } = "Rozen";
